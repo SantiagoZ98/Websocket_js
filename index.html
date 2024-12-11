@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Hola Mundo</title>
+</head>
+
+<body>
+    <h1>Conexión WebSocket</h1>
+    <p id="message">Esperando mensaje...</p>
+    <button id="sendMessageButton">Enviar mensaje al servidor</button>
+
+    <script>
+        // Conectar al servidor WebSocket en localhost:8080
+        const socket = new WebSocket('ws://localhost:8080');
+
+        // Cuando el cliente se conecta, mostrar un mensaje en la consola
+        socket.onopen = () => {
+            console.log('Conexión establecida');
+            document.getElementById('message').textContent = 'Conectado al servidor WebSocket';
+        };
+
+        // Recibir mensaje del servidor y mostrarlo en el HTML
+        socket.onmessage = (event) => {
+            console.log('Mensaje recibido:', event.data);
+            document.getElementById('message').textContent = `Mensaje del servidor: ${event.data}`;
+        };
+
+        // Manejar errores de conexión
+        socket.onerror = (error) => {
+            console.error('Error en WebSocket:', error);
+        };
+
+        // Cuando el cliente se desconecta
+        socket.onclose = () => {
+            console.log('Conexión cerrada');
+        };
+
+        // Enviar un mensaje al servidor cuando se hace clic en el botón
+        document.getElementById('sendMessageButton').addEventListener('click', () => {
+            socket.send('¡Hello World! My name is Santiago i am university student.');
+        });
+    </script>
+</body>
+
+</html>
